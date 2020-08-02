@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
         .status(400)
         .json({ msg: "An account with this email already exists." });
 
-    if (!displayName) displayName = email;
+    if (!displayName) return email;
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id }, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE");
     res.json({
       token,
       user: {
@@ -88,7 +88,7 @@ router.post("/tokenIsValid", async (req, res) => {
     const token = req.header("x-auth-token");
     if (!token) return res.json(false);
 
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    const verified = jwt.verify(token, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCJ9.AbIJTDMFc7yUa5MhvcP03nJPyCPzZtQcGEp-zWfOkEE");
     if (!verified) return res.json(false);
 
     const user = await User.findById(verified.id);
