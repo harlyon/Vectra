@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import bg from '../../images/image.jpg'
 import { useHistory } from 'react-router-dom';
-import userContext from '../../context/userContext';
 import axios from 'axios';
 import ErrorNotice from '../misc/error';
 import { REGISTER_API } from '../misc/utils/api';

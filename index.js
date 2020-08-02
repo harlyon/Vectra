@@ -30,3 +30,4 @@ mongoose.connect(
 // set up routes
 
 app.use("/users", require("./routes/userRouter"));
+app.use("/tasks", require("./routes/taskRouter"));
